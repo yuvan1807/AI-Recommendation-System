@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | RecommenderAI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Gradient Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, #0a0a2a 0%, #1a0a2a 25%, #0a2a1a 50%, #1a1a3e 75%, #2a0a2a 100%);
+            background-size: 400% 400%;
+            animation: bgFlow 15s ease infinite;
+            z-index: -5;
+        }
+
+        @keyframes bgFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Moving Grid Lines */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(transparent, transparent 50px, rgba(74,255,158,0.05) 50px, rgba(74,255,158,0.05) 51px),
+                repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(74,255,158,0.05) 50px, rgba(74,255,158,0.05) 51px);
+            z-index: -4;
+            animation: gridSlide 30s linear infinite;
+        }
+
+        @keyframes gridSlide {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+
+        /* Floating Particles */
+        .particle-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #4aff9e, transparent);
+            border-radius: 50%;
+            animation: particleRise 12s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes particleRise {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
+        }
+
+        /* Neon Orbs */
+        .neon-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            z-index: -2;
+            animation: orbFloat 25s infinite alternate;
+        }
+
+        .orb-1 { width: 600px; height: 600px; background: #ff4a4a; top: -300px; left: -300px; }
+        .orb-2 { width: 500px; height: 500px; background: #4a9eff; bottom: -250px; right: -250px; animation-delay: 5s; }
+        .orb-3 { width: 450px; height: 450px; background: #4aff9e; top: 40%; left: 20%; animation-delay: 10s; }
+        .orb-4 { width: 400px; height: 400px; background: #ffb44a; bottom: 30%; right: 15%; animation-delay: 15s; }
+        .orb-5 { width: 550px; height: 550px; background: #ff4ae6; top: 50%; left: 60%; animation-delay: 3s; }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(8%, 8%) scale(1.2); }
+        }
+
+        /* Shooting Stars */
+        .shooting-star {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: linear-gradient(90deg, white, transparent);
+            border-radius: 50%;
+            animation: starShoot 6s linear infinite;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        @keyframes starShoot {
+            0% { transform: translateX(0) translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            20% { transform: translateX(-300px) translateY(300px); opacity: 0; }
+            100% { transform: translateX(-300px) translateY(300px); opacity: 0; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 25px 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Glowing Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 35, 0.4);
+            backdrop-filter: blur(20px);
+            padding: 15px 30px;
+            border-radius: 80px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
+            animation: navbarGlow 3s infinite;
+        }
+
+        @keyframes navbarGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(74,255,158,0.2); border-color: rgba(74,255,158,0.2); }
+            50% { box-shadow: 0 0 25px rgba(74,255,158,0.4); border-color: rgba(74,255,158,0.5); }
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #ff4a4a, #ffb44a, #4aff9e);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoShift 3s ease infinite;
+        }
+
+        @keyframes logoShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 40px;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #4aff9e, #ffb44a);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 80%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #4aff9e;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(74,255,158,0.2), rgba(74,158,255,0.2));
+            padding: 10px 32px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            border: 1px solid rgba(74,255,158,0.4);
+            animation: badgePulse 2s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { border-color: rgba(74,255,158,0.3); box-shadow: 0 0 0 0 rgba(74,255,158,0.2); }
+            50% { border-color: rgba(74,255,158,0.8); box-shadow: 0 0 20px rgba(74,255,158,0.3); }
+        }
+
+        .hero-title {
+            font-size: 3.8rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #ff4a4a, #ffb44a, #4aff9e, #4a9eff, #ff4ae6);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 8s ease infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes rainbowFlow {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 200% 50%; }
+            75% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Creator Card - With Name Only */
+        .creator-card {
+            background: rgba(15, 15, 35, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 50px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.5s ease;
+            animation: glowPulse 4s infinite;
+        }
+
+        .creator-card:hover {
+            border-color: rgba(74,255,158,0.6);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.4);
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(74,255,158,0.1); }
+            50% { box-shadow: 0 0 30px rgba(74,255,158,0.2); }
+        }
+
+        .creator-name {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #4aff9e, #ffb44a, #ff4a4a, #4a9eff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: nameGlow 5s ease infinite;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        @keyframes nameGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .creator-title {
+            text-align: center;
+            color: #4aff9e;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .creator-quote {
+            text-align: center;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.85);
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            font-style: italic;
+            border-left: 3px solid #4aff9e;
+            border-right: 3px solid #4aff9e;
+            background: linear-gradient(90deg, transparent, rgba(74,255,158,0.05), transparent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, #4aff9e, #4a9eff);
+            transform: translateY(-5px) scale(1.1);
+            color: #000;
+            border-color: transparent;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border-radius: 28px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: #4aff9e;
+            background: rgba(74,255,158,0.05);
+        }
+
+        .stat-icon {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #4aff9e, #ffb44a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            background: linear-gradient(135deg, rgba(74,255,158,0.05), rgba(74,158,255,0.03));
+            border-radius: 32px;
+            padding: 40px;
+            margin-top: 20px;
+            border: 1px solid rgba(74,255,158,0.15);
+        }
+
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: #4aff9e;
+            font-size: 1.8rem;
+        }
+
+        .mission-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #4aff9e, #ffb44a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, rgba(74,255,158,0.15), rgba(74,158,255,0.15));
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(74,255,158,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            transform: scale(1.05);
+            background: rgba(74,255,158,0.3);
+            border-color: #4aff9e;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.3);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px 15px 40px; }
+            .hero-title { font-size: 2rem; }
+            .creator-name { font-size: 2rem; }
+            .navbar { flex-direction: column; gap: 15px; border-radius: 30px; }
+            .creator-card { padding: 30px; }
+            .creator-quote { font-size: 0.9rem; }
+            .stats-grid { gap: 15px; }
+            .section-title { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="grid-overlay"></div>
+    <div class="particle-field" id="particleField"></div>
+    <div class="neon-orb orb-1"></div>
+    <div class="neon-orb orb-2"></div>
+    <div class="neon-orb orb-3"></div>
+    <div class="neon-orb orb-4"></div>
+    <div class="neon-orb orb-5"></div>
+
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">Recommender<span>AI</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link active">About Us</a>
+                <a href="support.html" class="nav-link">Help & Support</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-badge">
+                <i class="fas fa-rocket"></i> THE FUTURE OF RECOMMENDATIONS
+            </div>
+            <div class="hero-title">INTELLIGENT DISCOVERY<br>REDEFINED</div>
+            <p class="hero-subtitle">Powered by cutting-edge AI algorithms that understand your preferences across multiple domains — from entertainment to career growth.</p>
+        </div>
+
+        <!-- Creator Card - Name Only -->
+        <div class="creator-card">
+            <div class="creator-name">YUVANESHVAR S</div>
+            <div class="creator-title">✧ AI ARCHITECT & LEAD DEVELOPER ✧</div>
+            <div class="creator-quote">
+                <i class="fas fa-quote-left" style="margin-right: 10px; opacity: 0.5;"></i> 
+                Building intelligent systems that understand human preferences — because the best recommendations feel like magic.
+                <i class="fas fa-quote-right" style="margin-left: 10px; opacity: 0.5;"></i>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="mailto:yuvanesh1807@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-value">95%+</div>
+                <div class="stat-label">Recommendation Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value">5000+</div>
+                <div class="stat-label">Products & Movies</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-value">60+</div>
+                <div class="stat-label">Domains Covered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🤖</div>
+                <div class="stat-value">100%</div>
+                <div class="stat-label">AI-Powered</div>
+            </div>
+        </div>
+
+        <!-- Mission Section -->
+        <div class="mission-section">
+            <div class="section-title">
+                <i class="fas fa-bullseye"></i> OUR MISSION
+            </div>
+            <div class="mission-text">
+                To revolutionize how people discover content, products, and opportunities by delivering <span class="highlight">hyper-personalized, AI-powered recommendations</span> that truly understand individual preferences. We're building the bridge between users and their next favorite thing — be it a movie, product, meal, job, or learning path.
+            </div>
+
+            <div class="section-title" style="margin-top: 35px;">
+                <i class="fas fa-microchip"></i> TECHNOLOGY STACK
+            </div>
+            <div class="tech-list">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Machine Learning</span>
+                <span class="tech-tag">Deep Learning</span>
+                <span class="tech-tag">Natural Language Processing</span>
+                <span class="tech-tag">Collaborative Filtering</span>
+                <span class="tech-tag">Content-Based Filtering</span>
+                <span class="tech-tag">HTML5/CSS3</span>
+                <span class="tech-tag">JavaScript (ES6+)</span>
+                <span class="tech-tag">Streamlit</span>
+                <span class="tech-tag">Flask</span>
+                <span class="tech-tag">Pandas/NumPy</span>
+                <span class="tech-tag">TensorFlow</span>
+                <span class="tech-tag">Scikit-learn</span>
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">Node.js</span>
+            </div>
+
+            <div class="section-title" style="margin-top: 35px;">
+                <i class="fas fa-chart-line"></i> OUR IMPACT
+            </div>
+            <div class="mission-text">
+                "RecommenderAI isn't just a recommendation engine — it's a discovery ecosystem. By seamlessly integrating <span class="highlight">6 diverse domains</span> into a single intelligent platform, we're helping users save time, discover hidden gems, and make informed decisions. From helping a user find their next favorite movie to matching them with their dream company, every recommendation is backed by data-driven algorithms that learn and adapt."
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 RecommenderAI — Where Intelligence Meets Personalization</p>
+            <p style="margin-top: 8px; font-size: 0.7rem;">Built with 🧠 for Futuristic World</p>
+        </div>
+    </div>
+
+    <script>
+        // Create shooting stars
+        for(let i = 0; i < 20; i++) {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.top = Math.random() * 50 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 6 + 's';
+            star.style.animationDuration = 4 + Math.random() * 3 + 's';
+            document.body.appendChild(star);
+        }
+
+        // Create floating particles
+        const particleField = document.getElementById('particleField');
+        for(let i = 0; i < 60; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 12 + 's';
+            particle.style.animationDuration = 10 + Math.random() * 8 + 's';
+            particle.style.width = Math.random() * 6 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particleField.appendChild(particle);
+        }
+    </script>
+</body>
+</html>

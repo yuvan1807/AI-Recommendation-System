@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecommenderAI | Ultimate Recommendation Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Premium 4D Animated Background */
+        .master-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a2a 0%, #050510 100%);
+            z-index: -4;
+        }
+
+        .animated-waves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            background: repeating-linear-gradient(45deg, rgba(255,74,158,0.03) 0px, rgba(255,74,158,0.03) 2px, transparent 2px, transparent 8px);
+            animation: waveMove 20s linear infinite;
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+
+        .gradient-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.2;
+            animation: orbFloat 25s infinite alternate;
+        }
+
+        .orb-1 { width: 500px; height: 500px; background: #ff4a4a; top: -200px; left: -200px; }
+        .orb-2 { width: 450px; height: 450px; background: #4a9eff; bottom: -200px; right: -200px; animation-delay: 5s; }
+        .orb-3 { width: 350px; height: 350px; background: #4aff9e; top: 40%; left: 30%; animation-delay: 10s; }
+        .orb-4 { width: 300px; height: 300px; background: #ffb44a; bottom: 30%; right: 20%; animation-delay: 15s; }
+        .orb-5 { width: 400px; height: 400px; background: #ff4ae6; top: 60%; left: 70%; animation-delay: 20s; }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(5%, 5%) scale(1.2); }
+        }
+
+        /* Shooting Stars */
+        .shooting-star {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 0 0 10px white;
+            border-radius: 50%;
+            animation: shoot 4s linear infinite;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            20% { transform: translateX(-200px) translateY(200px); opacity: 0; }
+            100% { transform: translateX(-200px) translateY(200px); opacity: 0; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 25px 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 35, 0.3);
+            backdrop-filter: blur(20px);
+            padding: 15px 30px;
+            border-radius: 80px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #ff4a4a, #ffb44a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 40px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,74,74,0.2);
+            color: #ff4a4a;
+        }
+
+        /* Header Section */
+        .premium-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .master-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, rgba(255,74,158,0.2), rgba(74,255,158,0.2));
+            backdrop-filter: blur(20px);
+            padding: 10px 32px;
+            border-radius: 60px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,74,158,0.4);
+            animation: borderRainbow 3s infinite;
+        }
+
+        @keyframes borderRainbow {
+            0%, 100% { border-color: rgba(255,74,158,0.4); box-shadow: 0 0 0 0 rgba(255,74,158,0.2); }
+            33% { border-color: rgba(74,255,158,0.4); box-shadow: 0 0 20px rgba(74,255,158,0.2); }
+            66% { border-color: rgba(74,158,255,0.4); box-shadow: 0 0 20px rgba(74,158,255,0.2); }
+        }
+
+        .rainbow-text {
+            background: linear-gradient(135deg, #ff4a4a, #ffb44a, #4aff9e, #4a9eff, #ff4ae6);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 6s ease infinite;
+        }
+
+        @keyframes rainbowFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: -2px;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            margin-top: 10px;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,74,158,0.5);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #ffb44a, #ff4a4a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+        }
+
+        /* Services Grid - Premium Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .service-card {
+            background: rgba(15, 15, 35, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(255,255,255,0.08);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(115deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(35deg);
+            transition: left 0.6s;
+            opacity: 0;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(255,74,158,0.4);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.4);
+        }
+
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #ff4a4a, #ffb44a, #4aff9e, #4a9eff, #ff4ae6);
+            background-size: 400% 400%;
+            border-radius: 32px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        .service-card:hover::after {
+            opacity: 0.5;
+        }
+
+        @keyframes borderRotate {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .card-title span {
+            font-size: 0.8rem;
+            background: rgba(255,107,74,0.2);
+            padding: 3px 10px;
+            border-radius: 30px;
+            margin-left: 10px;
+            font-weight: 400;
+        }
+
+        .card-desc {
+            color: rgba(255,255,255,0.6);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .card-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .feature-tag {
+            background: rgba(255,255,255,0.08);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .explore-btn {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .explore-btn:hover {
+            background: linear-gradient(135deg, #ff4a4a, #ffb44a);
+            color: #000;
+            border-color: transparent;
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 70px;
+            padding-top: 35px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.35);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px 15px 40px; }
+            h1 { font-size: 2.2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .stats-bar { gap: 20px; }
+            .stat-item { padding: 10px 20px; }
+            .stat-number { font-size: 1.2rem; }
+            .navbar { flex-direction: column; gap: 15px; border-radius: 30px; }
+            .nav-links { gap: 15px; }
+            .nav-link { padding: 5px 12px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="master-bg"></div>
+    <div class="animated-waves"></div>
+    <div class="gradient-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+        <div class="orb orb-5"></div>
+    </div>
+
+    <div class="container">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="logo">Recommender<span>AI</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="support.html" class="nav-link">Help & Support</a>
+            </div>
+        </nav>
+
+        <div class="premium-header">
+            <div class="master-badge">
+                <i class="fas fa-crown"></i> AI-POWERED RECOMMENDATION ENGINE
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1><span class="rainbow-text">RECOMMENDER</span> AI</h1>
+            <p class="tagline">✨ 6 Domains | 5000+ Recommendations | Smart AI Algorithms ✨</p>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">3000+</div>
+                <div class="stat-label">Products & Movies</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Food Items</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">5000+</div>
+                <div class="stat-label">Companies</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1500+</div>
+                <div class="stat-label">Learning Platforms</div>
+            </div>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="services-grid">
+            <div class="service-card" onclick="window.location.href='movies_advanced.html'">
+                <div class="card-header">
+                    <div class="card-icon">🎬</div>
+                    <div class="card-title">CINEMA MATCH<span>Live</span></div>
+                </div>
+                <div class="card-desc">AI-powered movie recommendations across 5 languages. Filter by genre and get personalized suggestions.</div>
+                <div class="card-features">
+                    <span class="feature-tag">🎭 6+ Genres</span>
+                    <span class="feature-tag">🌍 5 Languages</span>
+                    <span class="feature-tag">🎬 500+ Movies</span>
+                    <span class="feature-tag">⭐ Rating System</span>
+                </div>
+                <button class="explore-btn"><i class="fas fa-film"></i> Explore Movies <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="service-card" onclick="window.location.href='products.html'">
+                <div class="card-header">
+                    <div class="card-icon">🛍️</div>
+                    <div class="card-title">SHOP GENIUS<span>Live</span></div>
+                </div>
+                <div class="card-desc">Smart product recommendations with real-time price comparison across Amazon, Flipkart, Myntra.</div>
+                <div class="card-features">
+                    <span class="feature-tag">📦 2000+ Products</span>
+                    <span class="feature-tag">💰 Price Comparison</span>
+                    <span class="feature-tag">🛒 Add to Cart</span>
+                    <span class="feature-tag">⭐ Ratings</span>
+                </div>
+                <button class="explore-btn"><i class="fas fa-shopping-cart"></i> Shop Now <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="service-card" onclick="window.location.href='restaurants.html'">
+                <div class="card-header">
+                    <div class="card-icon">🍽️</div>
+                    <div class="card-title">FLAVOR FINDER<span>Live</span></div>
+                </div>
+                <div class="card-desc">Discover amazing restaurants by cuisine and price range. Order directly on Zomato/Swiggy.</div>
+                <div class="card-features">
+                    <span class="feature-tag">🍕 6 Cuisines</span>
+                    <span class="feature-tag">🥗 Veg/Non-Veg</span>
+                    <span class="feature-tag">🚚 Zomato/Swiggy</span>
+                    <span class="feature-tag">⭐ Ratings</span>
+                </div>
+                <button class="explore-btn"><i class="fas fa-utensils"></i> Find Food <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="service-card" onclick="window.location.href='companies.html'">
+                <div class="card-header">
+                    <div class="card-icon">🏢</div>
+                    <div class="card-title">CAREER COMPASS<span>Live</span></div>
+                </div>
+                <div class="card-desc">AI resume analyzer that matches your skills with top companies. Generate cover letters instantly.</div>
+                <div class="card-features">
+                    <span class="feature-tag">📄 Resume Parser</span>
+                    <span class="feature-tag">🎯 Smart Matching</span>
+                    <span class="feature-tag">✉️ Cover Letter</span>
+                    <span class="feature-tag">🏆 Top Companies</span>
+                </div>
+                <button class="explore-btn"><i class="fas fa-briefcase"></i> Find Jobs <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="service-card" onclick="window.location.href='courses.html'">
+                <div class="card-header">
+                    <div class="card-icon">📚</div>
+                    <div class="card-title">LEARN SMART<span>Live</span></div>
+                </div>
+                <div class="card-desc">Personalized learning platform recommendations based on your career goals and skills.</div>
+                <div class="card-features">
+                    <span class="feature-tag">🎯 6 Career Paths</span>
+                    <span class="feature-tag">📊 3 Experience Levels</span>
+                    <span class="feature-tag">🎓 15+ Platforms</span>
+                    <span class="feature-tag">🚀 Direct Access</span>
+                </div>
+                <button class="explore-btn"><i class="fas fa-graduation-cap"></i> Start Learning <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="service-card" onclick="alert('🚀 Coming Soon! Sports & Fitness recommendations will be added next!')">
+                <div class="card-header">
+                    <div class="card-icon">⚽</div>
+                    <div class="card-title">SPORTS ZONE<span>Soon</span></div>
+                </div>
+                <div class="card-desc">Sports equipment recommendations, fitness gear comparison, and personalized workout suggestions.</div>
+                <div class="card-features">
+                    <span class="feature-tag">🏋️ Equipment</span>
+                    <span class="feature-tag">👟 Footwear</span>
+                    <span class="feature-tag">📊 Comparisons</span>
+                    <span class="feature-tag">🎯 Personalized</span>
+                </div>
+                <button class="explore-btn"><i class="fas fa-futbol"></i> Coming Soon <i class="fas fa-clock"></i></button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><i class="fas fa-robot"></i> 6 Domains | AI-Powered Recommendations | Real-time Data | Smart Algorithms</p>
+            <p style="margin-top: 10px;">© 2026 RecommenderAI Built with ❤️ for futuristic world</p>
+        </div>
+    </div>
+
+    <script>
+        for(let i = 0; i < 20; i++) {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.top = Math.random() * 50 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 8 + 's';
+            star.style.animationDuration = 3 + Math.random() * 3 + 's';
+            document.body.appendChild(star);
+        }
+
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+            const targetText = counter.innerText;
+            const target = parseInt(targetText.replace(/\D/g, ''));
+            if(!isNaN(target)) {
+                let count = 0;
+                const updateCount = () => {
+                    const increment = Math.ceil(target / 50);
+                    if(count < target) {
+                        count += increment;
+                        if(count > target) count = target;
+                        counter.innerText = count.toLocaleString() + (targetText.includes('+') ? '+' : '');
+                        setTimeout(updateCount, 30);
+                    }
+                };
+                updateCount();
+            }
+        });
+    </script>
+</body>
+</html>

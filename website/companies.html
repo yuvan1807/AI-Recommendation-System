@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Compass | Resume Analyzer + Cover Letter Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .premium-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 30% 40%, #0a0a2a 0%, #000000 100%);
+            z-index: -3;
+        }
+
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(74,158,255,0.08), transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(255,74,74,0.08), transparent 50%);
+            z-index: -2;
+            animation: breathe 8s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .orb { position: fixed; border-radius: 50%; filter: blur(60px); opacity: 0.15; z-index: -1; animation: orbFloat 20s infinite alternate; }
+        .orb-1 { width: 400px; height: 400px; background: #4a9eff; top: -150px; left: -150px; }
+        .orb-2 { width: 350px; height: 350px; background: #ff4a4a; bottom: -150px; right: -150px; animation-delay: 5s; }
+        .orb-3 { width: 300px; height: 300px; background: #4aff9e; top: 50%; left: 30%; animation-delay: 10s; }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 25px 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            backdrop-filter: blur(20px);
+            padding: 12px 28px;
+            border-radius: 60px;
+            text-decoration: none;
+            color: white;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #ff4a4a, #ffb44a);
+            transform: translateX(-8px);
+        }
+
+        .premium-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .crown-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(255,74,74,0.15), rgba(255,180,74,0.1));
+            backdrop-filter: blur(20px);
+            padding: 8px 24px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,74,74,0.4);
+            animation: borderGlow 2s infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { border-color: rgba(255,74,74,0.4); }
+            50% { border-color: rgba(255,74,74,0.9); box-shadow: 0 0 20px rgba(255,74,74,0.3); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #ffffff, #ff4a4a, #ffb44a, #4a9eff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textFlow 6s ease infinite;
+        }
+
+        @keyframes textFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: rgba(15, 15, 30, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(74,158,255,0.5);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(74,158,255,0.03);
+        }
+
+        .upload-area:hover {
+            border-color: #4a9eff;
+            background: rgba(74,158,255,0.08);
+            transform: scale(1.01);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #4a9eff;
+            animation: bounceIcon 2s infinite;
+        }
+
+        @keyframes bounceIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .demo-btn {
+            background: linear-gradient(135deg, #ffb44a, #ff4a4a);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255,74,74,0.4);
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, rgba(74,158,255,0.2), rgba(74,158,255,0.1));
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #4a9eff;
+            border: 1px solid rgba(74,158,255,0.3);
+        }
+
+        .analyze-btn {
+            background: linear-gradient(135deg, #4a9eff, #1a6eff);
+            border: none;
+            padding: 14px 38px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(74,158,255,0.4);
+        }
+
+        /* Results Section */
+        .results-section {
+            margin-top: 35px;
+            display: none;
+        }
+
+        .results-section.visible {
+            display: block;
+            animation: fadeSlideUp 0.5s ease;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .match-count {
+            background: rgba(74,158,255,0.2);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .company-card {
+            background: linear-gradient(135deg, rgba(20, 20, 45, 0.7), rgba(10, 10, 25, 0.7));
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+            position: relative;
+        }
+
+        .company-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(74,158,255,0.5);
+            box-shadow: 0 20px 35px rgba(0,0,0,0.4);
+        }
+
+        .company-card.featured {
+            border: 1px solid rgba(255,74,74,0.3);
+            background: linear-gradient(135deg, rgba(30, 30, 55, 0.8), rgba(15, 15, 35, 0.8));
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #ff4a4a, #ffb44a);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .company-logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .company-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .match-score {
+            background: linear-gradient(135deg, #4a9eff, #1a6eff);
+            padding: 5px 14px;
+            border-radius: 30px;
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .company-desc {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .matched-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .matched-skill {
+            background: rgba(74,158,255,0.15);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            color: #4a9eff;
+        }
+
+        .cover-letter-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .cover-letter-btn:hover {
+            background: linear-gradient(135deg, #ffb44a, #ff4a4a);
+            border-color: transparent;
+            transform: scale(1.02);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.visible {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #0a0a1a);
+            border-radius: 28px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            border: 1px solid rgba(255,74,74,0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #ff4a4a;
+            transform: scale(1.1);
+        }
+
+        .cover-letter-text {
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            font-family: monospace;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .download-cover-btn {
+            background: linear-gradient(135deg, #4a9eff, #1a6eff);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .download-cover-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74,158,255,0.4);
+        }
+
+        .no-match {
+            text-align: center;
+            padding: 50px;
+            color: rgba(255,255,255,0.4);
+            grid-column: 1 / -1;
+        }
+
+        input[type="file"] { 
+            display: none; 
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 45px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.3);
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            h1 { font-size: 2rem; }
+            .companies-grid { grid-template-columns: 1fr; }
+            .upload-section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="premium-bg"></div>
+    <div class="gradient-overlay"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> BACK TO HOME
+        </a>
+
+        <div class="premium-header">
+            <div class="crown-badge">
+                <i class="fas fa-crown"></i> AI RESUME ANALYZER + COVER LETTER
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1>CAREER<span style="background: linear-gradient(135deg, #ff4a4a, #ffb44a); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">COMPASS</span></h1>
+            <p class="subtitle">✨ Upload Resume | Get Company Matches | Generate Cover Letter ✨</p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea" onclick="triggerFileUpload()">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h3>UPLOAD YOUR RESUME</h3>
+                <p>Click to upload (.txt, .pdf, .doc, .docx)</p>
+                <input type="file" id="resumeInput" accept=".txt,.pdf,.doc,.docx,text/plain">
+            </div>
+            
+            <div class="button-group">
+                <button class="demo-btn" id="demoBtn">
+                    <i class="fas fa-rocket"></i> USE DEMO RESUME
+                </button>
+            </div>
+            
+            <div class="skills-container" id="skillsContainer">
+                <div class="skill-tag">📄 Click "Use Demo Resume" or upload your resume</div>
+            </div>
+            
+            <button class="analyze-btn" id="analyzeBtn">
+                <i class="fas fa-chart-line"></i> ANALYZE & FIND COMPANIES
+            </button>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <div class="section-title">
+                <span><i class="fas fa-fire"></i> TOP COMPANY MATCHES</span>
+                <span class="match-count" id="matchCount"></span>
+            </div>
+            <div class="companies-grid" id="companiesGrid"></div>
+        </div>
+
+        <div class="footer">
+            <i class="fas fa-magic"></i> INSTANT ANALYSIS | SMART MATCHING | COVER LETTER GENERATOR
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="coverModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-envelope"></i> COVER LETTER</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="cover-letter-text" id="coverLetterText"></div>
+            <button class="download-cover-btn" id="downloadCoverBtn">
+                <i class="fas fa-download"></i> DOWNLOAD COVER LETTER
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== COMPANY DATABASE ====================
+        const companyDatabase = [
+            { name: "Google", logo: "🔍", reqSkills: ["python", "machine learning", "ai", "data science", "cloud", "tensorflow", "deep learning", "java", "c++"], desc: "Global leader in AI, Cloud, and Search Technology", type: "featured" },
+            { name: "Microsoft", logo: "💻", reqSkills: ["python", "ai", "cloud", "c++", "azure", "machine learning", "dotnet", "c#", "data science"], desc: "Empowering innovation through cloud and AI", type: "featured" },
+            { name: "Amazon", logo: "📦", reqSkills: ["python", "aws", "cloud", "data analytics", "machine learning", "java", "iot", "big data"], desc: "World's largest e-commerce and cloud platform", type: "featured" },
+            { name: "L&T Technology Services", logo: "🏭", reqSkills: ["iot", "embedded systems", "python", "c++", "data science", "ai", "automation", "sensors"], desc: "Leading engineering and R&D services", type: "featured" },
+            { name: "Infosys", logo: "🏢", reqSkills: ["python", "java", "data science", "ai", "cloud", "machine learning", "sql"], desc: "Global consulting and IT services leader", type: "featured" },
+            { name: "TCS", logo: "💼", reqSkills: ["python", "java", "data science", "ai", "sql", "cloud", "machine learning"], desc: "India's largest IT services company", type: "premium" },
+            { name: "Wipro", logo: "🌐", reqSkills: ["iot", "cloud", "data analytics", "python", "ai", "machine learning"], desc: "Global IT consulting services", type: "premium" },
+            { name: "Accenture", logo: "⚡", reqSkills: ["data science", "ai", "cloud", "python", "machine learning", "iot", "analytics"], desc: "Leading professional services company", type: "premium" },
+            { name: "Apple", logo: "🍎", reqSkills: ["swift", "python", "ai", "machine learning", "c++", "ios", "data science"], desc: "Innovative technology company", type: "premium" },
+            { name: "Meta", logo: "📘", reqSkills: ["python", "ai", "machine learning", "data science", "react", "javascript", "cloud"], desc: "Social media and metaverse leader", type: "premium" },
+            { name: "Netflix", logo: "📺", reqSkills: ["python", "data science", "machine learning", "cloud", "recommendation", "java"], desc: "Leading streaming platform", type: "premium" },
+            { name: "IBM", logo: "🔷", reqSkills: ["ai", "cloud", "data science", "python", "machine learning", "java", "watson"], desc: "Enterprise technology leader", type: "premium" }
+        ];
+
+        // Skill keywords
+        const skillKeywords = [
+            "python", "java", "javascript", "c++", "c#", "sql", "mysql", "mongodb",
+            "machine learning", "deep learning", "ai", "artificial intelligence", "data science", "data analytics",
+            "cloud", "aws", "azure", "gcp", "devops", "docker", "kubernetes", "git",
+            "tensorflow", "pytorch", "keras", "pandas", "numpy", "scikit-learn",
+            "react", "angular", "vue", "nodejs", "django", "flask",
+            "html", "css", "javascript", "frontend", "backend",
+            "iot", "embedded systems", "arduino", "raspberry pi", "sensors",
+            "data visualization", "power bi", "tableau", "excel",
+            "leadership", "project management", "agile", "scrum",
+            "communication", "problem solving", "analytical"
+        ];
+
+        let extractedSkills = [];
+        let resumeText = "";
+        let isResumeLoaded = false;
+
+        // Extract skills from text
+        function extractSkillsFromText(text) {
+            const lowerText = text.toLowerCase();
+            const foundSkills = new Set();
+            
+            skillKeywords.forEach(skill => {
+                if (lowerText.includes(skill.toLowerCase())) {
+                    foundSkills.add(skill);
+                }
+            });
+            
+            if (lowerText.includes("ml") || lowerText.includes("machine learning")) foundSkills.add("machine learning");
+            if (lowerText.includes("dl") || lowerText.includes("deep learning")) foundSkills.add("deep learning");
+            if (lowerText.includes("ai")) foundSkills.add("ai");
+            if (lowerText.includes("ds") || lowerText.includes("data science")) foundSkills.add("data science");
+            if (lowerText.includes("iot")) foundSkills.add("iot");
+            
+            return Array.from(foundSkills);
+        }
+
+        // Match companies
+        function matchCompanies(skills) {
+            return companyDatabase.map(company => {
+                const matchedSkills = company.reqSkills.filter(req => 
+                    skills.some(user => user.toLowerCase().includes(req.toLowerCase()) || req.toLowerCase().includes(user.toLowerCase()))
+                );
+                let score = 0;
+                if (company.reqSkills.length > 0 && skills.length > 0) {
+                    score = Math.min(95, Math.round((matchedSkills.length / company.reqSkills.length) * 100) + (matchedSkills.length >= 3 ? 10 : 0));
+                }
+                return { ...company, matchedSkills, matchScore: score };
+            }).filter(m => m.matchScore >= 15).sort((a, b) => b.matchScore - a.matchScore);
+        }
+
+        // Generate Cover Letter
+        function generateCoverLetter(companyName, skills) {
+            const userName = extractNameFromResume(resumeText) || "Yuvaneshvar S";
+            const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const skillList = skills.slice(0, 8).join(", ");
+            
+            return `${date}
+
+To,
+The Hiring Manager
+${companyName}
+
+Subject: Application for Internship Position
+
+Dear Hiring Team,
+
+I am writing to express my strong interest in the Internship opportunity at ${companyName}. As a passionate Artificial Intelligence & Data Science student with expertise in ${skillList}, I am confident that my technical skills and enthusiasm align perfectly with ${companyName}'s innovative culture.
+
+Through my academic projects, I have developed practical experience in:
+• Building IoT-based monitoring systems using Arduino and sensors
+• Implementing machine learning models for real-time applications
+• Developing full-stack web applications with HTML, CSS, and Python
+• Creating recommendation systems using collaborative filtering
+
+I am particularly drawn to ${companyName} because of its leadership in technology and commitment to innovation. I am eager to contribute my skills while learning from the industry experts at your esteemed organization.
+
+Enclosed is my resume detailing my academic achievements and project experience. I would welcome the opportunity to discuss how my skills align with ${companyName}'s requirements.
+
+Thank you for considering my application.
+
+Yours sincerely,
+${userName}
+B.E - Artificial Intelligence & Data Science
+Phone: +91 9841404669
+Email: yuvanesh1807@gmail.com`;
+        }
+
+        // Extract name from resume
+        function extractNameFromResume(text) {
+            const lines = text.split('\n');
+            for (let line of lines.slice(0, 10)) {
+                if (line.toUpperCase() === line && line.length < 40 && line.length > 5) {
+                    return line.trim();
+                }
+            }
+            return "Yuvaneshvar S";
+        }
+
+        // Update UI
+        function updateSkillsDisplay(skills) {
+            const container = document.getElementById('skillsContainer');
+            if (!skills || skills.length === 0) {
+                container.innerHTML = '<div class="skill-tag">⚠️ No technical skills detected</div>';
+                return;
+            }
+            container.innerHTML = skills.slice(0, 16).map(s => `<div class="skill-tag">✅ ${s}</div>`).join('');
+            if (skills.length > 16) {
+                container.innerHTML += `<div class="skill-tag">+${skills.length - 16} more</div>`;
+            }
+        }
+
+        function displayMatches(matches) {
+            const resultsSection = document.getElementById('resultsSection');
+            const companiesGrid = document.getElementById('companiesGrid');
+            const matchCountSpan = document.getElementById('matchCount');
+            
+            if (!matches || matches.length === 0) {
+                companiesGrid.innerHTML = '<div class="no-match">❌ No matching companies found. Try adding more technical skills to your resume!</div>';
+                matchCountSpan.textContent = '0 matches';
+                resultsSection.classList.add('visible');
+                return;
+            }
+            
+            matchCountSpan.textContent = `${matches.length} matches found`;
+            resultsSection.classList.add('visible');
+            
+            companiesGrid.innerHTML = matches.map((company, idx) => `
+                <div class="company-card ${company.type === 'featured' ? 'featured' : ''}" style="position: relative;">
+                    ${company.type === 'featured' ? '<div class="featured-badge"><i class="fas-crown"></i> TOP MATCH</div>' : ''}
+                    <div class="company-logo">${company.logo}</div>
+                    <div class="company-name">${company.name}</div>
+                    <div class="match-score">${company.matchScore}% MATCH</div>
+                    <div class="company-desc">${company.desc}</div>
+                    <div class="matched-skills">
+                        ${company.matchedSkills.slice(0, 5).map(s => `<div class="matched-skill">${s}</div>`).join('')}
+                        ${company.matchedSkills.length > 5 ? `<div class="matched-skill">+${company.matchedSkills.length - 5}</div>` : ''}
+                    </div>
+                    <button class="cover-letter-btn" onclick="openCoverLetterModal('${company.name.replace(/'/g, "\\'")}')">
+                        <i class="fas fa-envelope"></i> GENERATE COVER LETTER
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Read file and analyze
+        async function analyzeResume(file) {
+            const resultsSection = document.getElementById('resultsSection');
+            const companiesGrid = document.getElementById('companiesGrid');
+            companiesGrid.innerHTML = '<div class="no-match"><i class="fas fa-spinner fa-spin"></i> Analyzing your resume...</div>';
+            resultsSection.classList.add('visible');
+            
+            try {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const content = e.target.result;
+                    const skills = extractSkillsFromText(content);
+                    extractedSkills = skills;
+                    resumeText = content;
+                    isResumeLoaded = true;
+                    updateSkillsDisplay(skills);
+                    const matches = matchCompanies(skills);
+                    displayMatches(matches);
+                };
+                reader.readAsText(file);
+            } catch (error) {
+                companiesGrid.innerHTML = '<div class="no-match">❌ Error reading file. Please try again!</div>';
+            }
+        }
+
+        // Analyze already loaded resume (no file picker)
+        function reAnalyzeLoadedResume() {
+            if (!isResumeLoaded || !resumeText) {
+                // If no resume loaded, show message
+                const companiesGrid = document.getElementById('companiesGrid');
+                companiesGrid.innerHTML = '<div class="no-match">📄 Please upload a resume or click "Use Demo Resume" first!</div>';
+                document.getElementById('resultsSection').classList.add('visible');
+                return;
+            }
+            
+            const companiesGrid = document.getElementById('companiesGrid');
+            companiesGrid.innerHTML = '<div class="no-match"><i class="fas fa-spinner fa-spin"></i> Re-analyzing...</div>';
+            document.getElementById('resultsSection').classList.add('visible');
+            
+            setTimeout(() => {
+                const skills = extractedSkills;
+                updateSkillsDisplay(skills);
+                const matches = matchCompanies(skills);
+                displayMatches(matches);
+            }, 100);
+        }
+
+        // Modal functions
+        let currentCompany = "";
+        
+        window.openCoverLetterModal = function(companyName) {
+            currentCompany = companyName;
+            const coverLetter = generateCoverLetter(companyName, extractedSkills);
+            document.getElementById('coverLetterText').innerText = coverLetter;
+            document.getElementById('coverModal').classList.add('visible');
+        }
+        
+        window.closeModal = function() {
+            document.getElementById('coverModal').classList.remove('visible');
+        }
+        
+        document.getElementById('downloadCoverBtn').addEventListener('click', () => {
+            const coverLetter = document.getElementById('coverLetterText').innerText;
+            const blob = new Blob([coverLetter], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Cover_Letter_${currentCompany.replace(/\s/g, '_')}.txt`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        });
+
+        // Trigger file upload
+        function triggerFileUpload() {
+            document.getElementById('resumeInput').click();
+        }
+
+        // Load Demo Resume
+        function loadDemoResume() {
+            const demoText = `YUVANESHVAR S
+B.E - Artificial Intelligence & Data Science | Velammal Engineering College | CGPA: 7.4
+
+TECHNICAL SKILLS
+Python, Machine Learning, Deep Learning, Data Science, IoT, Artificial Intelligence
+Arduino, Sensors, Embedded Systems, Data Analytics, Cloud Computing
+Pandas, NumPy, Scikit-learn, TensorFlow, Keras, Matplotlib
+HTML, CSS, JavaScript, SQL, MySQL, Git, VS Code
+
+PROJECTS
+1. IoT Air Pollution Monitoring System - Arduino, MQ135, DHT11, Processing 4
+2. AI Epileptic Seizure Detection - Python, CNN, LSTM, EEG Signal Processing
+3. Hybrid Movie Recommendation System - Python, Pandas, Scikit-learn, Streamlit
+4. IoT Water Management System - Arduino, Flow Sensor, Solenoid Valve, Blynk
+
+CERTIFICATIONS
+• Python for Data Science - NPTEL
+• Machine Learning Specialization - Coursera
+• IoT Fundamentals - Arduino
+
+KEY STRENGTHS
+• Cross-Domain Integration (AI + IoT + Healthcare)
+• Problem Solving & Analytical Thinking
+• Team Collaboration & Communication`;
+
+            const skills = extractSkillsFromText(demoText);
+            extractedSkills = skills;
+            resumeText = demoText;
+            isResumeLoaded = true;
+            
+            updateSkillsDisplay(skills);
+            const matches = matchCompanies(skills);
+            displayMatches(matches);
+            
+            // Update upload area UI
+            const uploadArea = document.getElementById('uploadArea');
+            uploadArea.innerHTML = `
+                <div class="upload-icon"><i class="fas fa-check-circle" style="color: #4aff9e;"></i></div>
+                <h3>DEMO RESUME LOADED!</h3>
+                <p>Your skills have been extracted</p>
+                <p style="font-size: 12px; margin-top: 8px;">✅ Click "ANALYZE" to re-run or upload your own resume</p>
+                <input type="file" id="resumeInput" accept=".txt,.pdf,.doc,.docx,text/plain">
+            `;
+            
+            // Re-attach file input listener
+            const newInput = document.getElementById('resumeInput');
+            if(newInput) {
+                newInput.addEventListener('change', function(e) {
+                    if(e.target.files && e.target.files.length > 0) {
+                        analyzeResume(e.target.files[0]);
+                    }
+                });
+            }
+        }
+
+        // File upload handler
+        document.getElementById('resumeInput').addEventListener('change', function(e) {
+            if(e.target.files && e.target.files.length > 0) {
+                const file = e.target.files[0];
+                const uploadArea = document.getElementById('uploadArea');
+                uploadArea.innerHTML = `
+                    <div class="upload-icon"><i class="fas fa-check-circle" style="color: #4aff9e;"></i></div>
+                    <h3>RESUME READY!</h3>
+                    <p>${file.name}</p>
+                    <p style="font-size: 12px; margin-top: 8px;">✅ Click "ANALYZE" to find matching companies</p>
+                    <input type="file" id="resumeInput" accept=".txt,.pdf,.doc,.docx,text/plain">
+                `;
+                
+                // Re-attach event listener
+                const newInput = document.getElementById('resumeInput');
+                if(newInput) {
+                    newInput.addEventListener('change', arguments.callee);
+                }
+                analyzeResume(file);
+            }
+        });
+
+        // Analyze button - ONLY re-analyzes, NEVER opens file manager
+        document.getElementById('analyzeBtn').addEventListener('click', function() {
+            reAnalyzeLoadedResume();
+        });
+
+        // Demo button
+        document.getElementById('demoBtn').addEventListener('click', function() {
+            loadDemoResume();
+        });
+
+        // Expose trigger function globally
+        window.triggerFileUpload = triggerFileUpload;
+    </script>
+</body>
+</html>
